@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <title>Support-Ticket | Schul-Support</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f9f9f9;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #0073e6;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    input, select, textarea, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: #0073e6;
+      color: white;
+      margin-top: 20px;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #005bb5;
+    }
+    .info-box {
+      background: #e7f1ff;
+      padding: 15px;
+      border-left: 4px solid #0073e6;
+      margin-bottom: 20px;
+      border-radius: 5px;
+    }
+    .success-message {
+      display: none;
+      background-color: #d4edda;
+      border-left: 4px solid #28a745;
+      padding: 10px;
+      margin-top: 20px;
+      border-radius: 5px;
+      color: #155724;
+    }
+    .file-hint {
+      font-size: 0.9em;
+      color: #555;
+    }
+    .thank-you {
+      margin-top: 30px;
+      font-style: italic;
+      color: #333;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Start-Info, zunächst sichtbar -->
+  <div id="start-screen" class="info-box">
+    <p>👋 Willkommen beim Schul-Support!</p>
+    <p>Jeden Mittwoch kannst du uns in Raum 154 besuchen. An anderen Tagen erreichst du uns online über dieses Formular.</p>
+    <button id="start-btn">Weiter</button>
+  </div>
+
+  <!-- Formular, zunächst versteckt -->
+  <form id="support-form" action="https://getform.io/f/bqomdzjb" method="POST" enctype="multipart/form-data" style="display:none;">
+
+    <div class="info-box">
+      <strong>🕐 Support vor Ort:</strong> Jeden Mittwoch in Raum 154 – komm gerne vorbei!
+    </div>
+
+    <h2>Support-Ticket erstellen</h2>
+
+    <label for="name">Name</label>
+    <input type="text" name="name" required>
+
+    <label for="class">Klasse</label>
+    <input type="text" name="class" required>
+
+    <label for="email">Deine Schul-E-Mail</label>
+    <input type="email" name="email" required>
+
+    <label for="platform">Plattform (Gerät)</label>
+    <select name="platform" required>
+      <option value="">-- Bitte wählen --</option>
+      <option>iPhone/iPad</option>
+      <option>Samsung</option>
+      <option>Anderes</option>
+    </select>
+
+    <label for="category">Kategorie des Problems</label>
+    <select name="category" required>
+      <option value="">-- Bitte wählen --</option>
+      <option>Gmail</option>
+      <option>Classroom</option>
+      <option>OneNote</option>
+      <option>WLAN</option>
+      <option>Sonstiges</option>
+    </select>
+
+    <label for="description">Beschreibung des Problems</label>
+    <textarea name="description" rows="6" required></textarea>
+
+    <label for="file">Datei anhängen (Bild oder PDF)</label>
+    <input type="file" name="file" accept=".jpg,.jpeg,.png,.pdf">
+    <div class="file-hint">Datei darf max. 5 MB groß sein.</div>
+
+    <input type="hidden" name="ip" id="ipField">
+
+    <button type="submit">Weiter</button>
+
+    <div class="thank-you">
+      Vielen Dank für dein Vertrauen – dein Technikhelfer-Team 🤖
+    </div>
+  </form>
+
+  <div id="success-message" class="success-message">
+    ✅ Danke! Dein Ticket wurde erfolgreich übermittelt. Wir melden uns bald bei dir.
+  </div>
+
+<script>
+  // IP-Adresse holen und ins versteckte Feld einfügen
+  fetch('https://api.ipify.org?format=json')
+    .then(response => response.json())
+    .then(data => {
+      document.getElementById('ipField').value = data.ip;
+    });
+
+  // Datei-Größe prüfen und Formular normal absenden
+  document.getElementById('support-form').addEventListener('submit', function(event) {
+    const fileInput = document.querySelector('input[name="file"]');
+    const file = fileInput.files[0];
+    if (file && file.size > 5 * 1024 * 1024) {
+      alert('Die Datei ist zu groß. Bitte wähle eine Datei unter 5 MB.');
+      event.preventDefault();
+      return;
+    }
+    // Hier kein preventDefault, Formular wird normal gesendet
+  });
+
+  // Start-Button zeigt Formular und blendet Start-Screen aus
+  document.getElementById('start-btn').addEventListener('click', () => {
+    alert("👋 Willkommen beim Schul-Support! Bitte fülle das Formular sorgfältig aus.");
+    document.getElementById('start-screen').style.display = 'none';
+    document.getElementById('support-form').style.display = 'block';
+  });
+</script>
+
+</body>
+</html>
