@@ -91,11 +91,11 @@
     <label for="Klasse">Klasse</label>
     <input type="text" name="Klasse" required>
 
-    <label for="email">Deine Schul-E-Mail</label>
-    <input type="email" name="email" required>
+    <label for="Email">Deine Schul-E-Mail</label>
+    <input type="Email" name="email" required>
 
-    <label for="plattform">Plattform (Gerät)</label>
-    <select name="plattform" required>
+    <label for="Plattform">Plattform (Gerät)</label>
+    <select name="Plattform" required>
       <option value="">-- Bitte wählen --</option>
       <option>iPhone/iPad</option>
       <option>Samsung</option>
@@ -119,7 +119,7 @@
     <input type="file" name="Datei" accept=".jpg,.jpeg,.png,.pdf">
     <div class="file-hint">Datei darf max. 25 MB groß sein.</div>
 
-    <input type="hidden" name="ip" id="ipField">
+    <input type="hidden" name="IP" id="ipField">
 
     <button type="submit">Weiter</button>
 
@@ -145,7 +145,7 @@
     const fileInput = document.querySelector('input[name="file"]');
     const file = fileInput.files[0];
     if (file && file.size > 5 * 1024 * 1024) {
-      alert('Die Datei ist zu groß. Bitte wähle eine Datei unter 5 MB.');
+      alert('Die Datei ist zu groß. Bitte wähle eine Datei unter 25 MB.');
       event.preventDefault();
       return;
     }
